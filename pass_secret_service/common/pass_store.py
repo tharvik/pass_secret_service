@@ -91,7 +91,14 @@ class PassStore:
         return subprocess.run(
             ["pass", subcmd, os.path.join(self.PREFIX, collection_name, name)],
             check=True,
-            env=dict(PASSWORD_STORE_DIR=self.store_path),
+            env=dict(
+                GIT_CONFIG_COUNT="2",
+                GIT_CONFIG_KEY_0="user.email",
+                GIT_CONFIG_VALUE_0="pass_secret_service@localhost",
+                GIT_CONFIG_KEY_1="user.name",
+                GIT_CONFIG_VALUE_1="pass_secret_service",
+                PASSWORD_STORE_DIR=self.store_path,
+            ),
             text=True,
             **kwargs,
         )
